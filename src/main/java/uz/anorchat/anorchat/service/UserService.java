@@ -3,6 +3,7 @@ package uz.anorchat.anorchat.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -65,10 +66,11 @@ public class UserService implements UserDetailsService {
                     throw e;
                 } catch (Exception e) {
                     logger.error(e.getLocalizedMessage());
+                    e.printStackTrace();
                     return new ApiResponse(e.getLocalizedMessage(), 500);
                 }
             }
-            return new ApiResponse("Tasdiqlovchi parol mos kelmadi.", 400);
+            return new ApiResponse("Tasdiqlovchi parol mos kelmadi.",400);
         }
         return new ApiResponse("Bu foydalanuvchi oldindan mavjud.", 400);
     }
@@ -86,6 +88,8 @@ public class UserService implements UserDetailsService {
             logger.error(e.getLocalizedMessage());
             throw new NotFoundException(e.getMessage());
         } catch (Exception e) {
+            logger.error(e.getLocalizedMessage());
+            e.printStackTrace();
             throw new LoginException("Nimadir xato bo`ldi");
 
         }

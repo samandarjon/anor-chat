@@ -7,5 +7,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+    show-sql: true
+    format_sql: true
 server:
   port: 8080
+jwt:
+  secret: hellowoldsdfsdfdsfgadszo3e48973w@@@^%$^%$%^kjdfhskjlfhskj

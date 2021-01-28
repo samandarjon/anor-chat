@@ -16,15 +16,15 @@ public class Chat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name = "first_user_id")
-    @ManyToOne(cascade = CascadeType.ALL)
+
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private User firstUser;
 
-    @JoinColumn(name = "second_user_id")
-    @ManyToOne(cascade = CascadeType.ALL)
+
+    @ManyToOne(cascade = CascadeType.REMOVE )
     private User secondUser;
 
-    @OneToMany(mappedBy = "chat", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "chat", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Message> messages;
 
 }

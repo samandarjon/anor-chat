@@ -1,5 +1,6 @@
 package uz.anorchat.anorchat.component;
 
+import javassist.tools.web.BadHttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
@@ -7,6 +8,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpClientErrorException;
+import uz.anorchat.anorchat.exception.ForbiddenException;
 import uz.anorchat.anorchat.exception.LoginException;
 import uz.anorchat.anorchat.exception.NotFoundException;
 import uz.anorchat.anorchat.payload.ApiResponse;
@@ -47,6 +50,19 @@ public class GlobalExceptionHandler {
     public ApiResponse handleUsernameNotFoundException(UsernameNotFoundException e) {
         return new ApiResponse(e.getMessage(), 404);
     }
+
+    @ResponseStatus(code = HttpStatus.FORBIDDEN)
+    @ExceptionHandler(ForbiddenException.class)
+    public ApiResponse handleForbiddenException(ForbiddenException e) {
+        return new ApiResponse(e.getMessage(), 404);
+    }
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BadHttpRequest.class)
+    public ApiResponse handleForbiddenException(BadHttpRequest e) {
+        return new ApiResponse(e.getMessage(), 404);
+    }
+
+
 
 
 }
