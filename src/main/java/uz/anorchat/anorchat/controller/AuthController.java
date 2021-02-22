@@ -25,7 +25,8 @@ public class AuthController {
 
     /**
      * {@code POST  /api/auth/login} : login user.
-     *d
+     * d
+     *
      * @param login the login to create.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the token response,
      * or with status {@code 400 (Bad Request)} if the username and password is blank.
@@ -38,10 +39,10 @@ public class AuthController {
 
     /**
      * {@code POST  /api/auth/singup} : register user.
-     *      
+     *
      * @param register the register to create.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the ApiResonse,
-     * or with status {@code 400 (Bad Request)} if  confirm password isn't mutch with password.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the ApiResponse,
+     * or with status {@code 400 (Bad Request)} if  confirm password isn't match with password.
      * @throws NotFoundException if the user not found form db.
      */
     @PostMapping("/signup")

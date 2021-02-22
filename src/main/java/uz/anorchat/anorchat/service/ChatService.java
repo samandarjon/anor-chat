@@ -15,6 +15,7 @@ public class ChatService {
         this.chatRepository = chatRepository;
     }
 
+
     public List<Chat> getAll(User user) {
         return chatRepository.findAllByFirstUserIdOrSecondUserId(user.getId(), user.getId());
     }

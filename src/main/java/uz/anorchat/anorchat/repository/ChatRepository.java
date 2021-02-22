@@ -14,6 +14,5 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
             "(ch.firstUser.id = ?2 and ch.secondUser.id =?1)")
     Optional<Chat> findByUsers(Long firstUser_id, Long secondUser_id);
 
-
     List<Chat> findAllByFirstUserIdOrSecondUserId(Long firstUser_id, Long secondUser_id);
 }

@@ -8,7 +8,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.client.HttpClientErrorException;
 import uz.anorchat.anorchat.exception.ForbiddenException;
 import uz.anorchat.anorchat.exception.LoginException;
 import uz.anorchat.anorchat.exception.NotFoundException;
@@ -24,6 +23,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public Map<String, String> handleValidationExceptions(
             MethodArgumentNotValidException ex) {
+//        Form validation exception handler
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
@@ -56,13 +56,12 @@ public class GlobalExceptionHandler {
     public ApiResponse handleForbiddenException(ForbiddenException e) {
         return new ApiResponse(e.getMessage(), 404);
     }
+
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BadHttpRequest.class)
     public ApiResponse handleForbiddenException(BadHttpRequest e) {
         return new ApiResponse(e.getMessage(), 404);
     }
-
-
 
 
 }

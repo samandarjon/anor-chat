@@ -31,3 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
+
+./anot-chat-client/node_modules

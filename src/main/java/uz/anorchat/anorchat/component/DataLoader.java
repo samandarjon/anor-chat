@@ -13,13 +13,30 @@ public class DataLoader implements CommandLineRunner {
     private UserRepository userRepository;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Override
     public void run(String... args) throws Exception {
-        User user = new User(null,"user1","user1",bCryptPasswordEncoder.encode("user1"));
-        User user2 = new User(null,"user2","user2",bCryptPasswordEncoder.encode("user2"));
-        User user3 = new User(null,"user3","user3",bCryptPasswordEncoder.encode("user3"));
-        userRepository.save(user);
-        userRepository.save(user2);
-        userRepository.save(user3);
+//        create temp user if user size less zero or equal
+        if (userRepository.count() <= 0) {
+//           Create user with Builder pattern
+            User user = User.builder()
+                    .fullName("user1")
+                    .username("user1")
+                    .password(bCryptPasswordEncoder.encode("user1"))
+                    .build();
+            User user2 = User.builder()
+                    .fullName("user2")
+                    .username("user2")
+                    .password(bCryptPasswordEncoder.encode("user2"))
+                    .build();
+            User user3 = User.builder()
+                    .fullName("user3")
+                    .username("user3")
+                    .password(bCryptPasswordEncoder.encode("user3"))
+                    .build();
+            userRepository.save(user);
+            userRepository.save(user2);
+            userRepository.save(user3);
+        }
     }
 }

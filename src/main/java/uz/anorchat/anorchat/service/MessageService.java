@@ -14,6 +14,7 @@ import uz.anorchat.anorchat.repository.MessageRepository;
 import uz.anorchat.anorchat.repository.UserRepository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class MessageService {
@@ -28,11 +29,11 @@ public class MessageService {
         this.messageRepository = messageRepository;
     }
 
-    public Chat getChatMessages(Long chatId, User user) {
+    public List<Message> getChatMessages(Long chatId, User user) {
         Chat chat = chatRepository.findById(chatId).orElseThrow(() -> new NotFoundException("Sizda bunday chat yo`q."));
         if (chat.getFirstUser().getId().equals(user.getId())
                 || chat.getSecondUser().getId().equals(user.getId())) {
-            return chat;
+            return chat.getMessages();
         }
         throw new ForbiddenException("Bu chat siziki emas.");
     }
@@ -43,7 +44,8 @@ public class MessageService {
         if (message.getUserId().equals(user.getId())) {
             throw new BadHttpRequest(new Exception("Aldashga urunmang"));
         }
-        User secondUser = userRepository.findById(message.getUserId()).orElseThrow(() -> new NotFoundException("Bunday foydalanuvchi topilamadi"));
+        User secondUser = userRepository.findById(message.getUserId())
+                .orElseThrow(() -> new NotFoundException("Bunday foydalanuvchi topilamadi"));
         Chat chat = chatRepository.findByUsers(user.getId(), message.getUserId()).orElse(new Chat());
         System.out.println(chat.getId());
         if (chat.getId() == null) {
