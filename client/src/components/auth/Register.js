@@ -15,6 +15,7 @@ import {Link as LinkTo} from "react-router-dom";
 import PropTypes from 'prop-types'
 import {connect} from "react-redux";
 import {registerUser} from "../../actions/authAction";
+import Alert from "@material-ui/lab/Alert";
 
 function Copyright() {
     return (
@@ -45,9 +46,8 @@ class Register extends Component {
     }
 
     onChange = (e) => {
-
         this.setState({[e.target.name]: e.target.value})
-        this.setState({errors:{[e.target.name]: null}})
+        this.setState({errors: {[e.target.name]: null}})
     }
 
     componentWillReceiveProps(nextProps) {
@@ -67,6 +67,10 @@ class Register extends Component {
 
         this.props.registerUser(newUser, this.props.history);
     }
+    onClose = (e) => {
+        this.setState({errors: {}})
+    }
+
 
     render() {
         const classes = makeStyles((theme) => ({
@@ -90,6 +94,12 @@ class Register extends Component {
         }));
         return (
             <div className={"row mt-5"}>
+                {this.state.errors.message ?
+                    (<div className={"offset-md-3 col-md-6"}>
+                        <div className={alert.root}>
+                            <Alert onClose={this.onClose} severity="error">{this.state.errors.message}</Alert>
+                        </div>
+                    </div>) : ""}
                 <div className={"col-md-12"}>
                     <Container component="main" maxWidth="xs">
                         <CssBaseline/>

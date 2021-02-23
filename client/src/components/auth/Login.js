@@ -49,6 +49,7 @@ class Login extends Component {
 
     onChange = (e) => {
         this.setState({[e.target.name]: e.target.value})
+        this.setState({errors: {[e.target.name]: null}})
     }
 
     onSubmit = (e) => {
@@ -125,6 +126,8 @@ class Login extends Component {
                             </Typography>
                             <form className={classes.form} noValidate onSubmit={this.onSubmit}>
                                 <TextField
+                                    error={this.state.errors.username}
+                                    helperText={this.state.errors.username}
                                     onChange={this.onChange}
                                     variant="outlined"
                                     margin="normal"
@@ -137,6 +140,8 @@ class Login extends Component {
                                     autoFocus
                                 />
                                 <TextField
+                                    error={this.state.errors.password}
+                                    helperText={this.state.errors.password}
                                     onChange={this.onChange}
                                     variant="outlined"
                                     margin="normal"
