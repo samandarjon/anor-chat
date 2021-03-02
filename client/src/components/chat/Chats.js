@@ -40,8 +40,6 @@ class Chats extends Component {
                         <RightSide/>
                     </Grid>
                 </Grid>
-
-
             </div>
         );
     }
@@ -54,7 +52,8 @@ Chats.propTypes = {
 }
 const s2p = (state) => ({
         auth: state.auth,
-        chats: state.chats
+        chats: state.chats,
+        chat: state.chat
     })
 ;
 export default WithAuth(connect(s2p, {getChats, getChatByChatId})(Chats));
