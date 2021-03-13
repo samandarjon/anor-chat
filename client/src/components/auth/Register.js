@@ -50,6 +50,12 @@ class Register extends Component {
         this.setState({errors: {[e.target.name]: null}})
     }
 
+    componentDidMount() {
+        if (this.props.auth.isAuthenticated) {
+            this.props.history.push("/chat")
+        }
+    }
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.errors) {
             this.setState({errors: nextProps.errors});

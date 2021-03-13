@@ -44,7 +44,9 @@ class Login extends Component {
     }
 
     componentDidMount() {
-
+        if (this.props.auth.isAuthenticated) {
+            this.props.history.push("/chat")
+        }
     }
 
     onChange = (e) => {
@@ -59,7 +61,7 @@ class Login extends Component {
             password: this.state.password,
         };
 
-        this.props.login(user);
+        this.props.login(user, this.props.history);
         console.log("hey ", this.state)
     }
 

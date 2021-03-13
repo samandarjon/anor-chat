@@ -6,17 +6,18 @@ class RightSide extends Component {
     render() {
         const {messages} = this.props
         let messageView;
-        if (!(isEmpty(messages) && messages.length > 0)) {
-            messageView = messages.map(message => {
+        console.log(messages)
+        if (!isEmpty(messages)) {
+            console.log("hey")
+            messageView = messages.map(message =>
                     <Grid container>
                         <Grid item xs={6}>
-
+                            {message.text}
                         </Grid>
                     </Grid>
-                }
+
             )
         }
-
         return (
             <div>
                 {messageView}

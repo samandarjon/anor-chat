@@ -8,7 +8,8 @@ export default function (state = initialState, action) {
     switch (action.type) {
         case GET_CHATS: {
             return {
-                ...state
+                ...state,
+                chats: action.payload
             }
         }
         default:

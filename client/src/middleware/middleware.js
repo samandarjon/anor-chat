@@ -34,7 +34,12 @@ const socketMiddleware = () => {
                 }
 
                 // connect to the remote host
-                socket = new WebSocket(action.host);
+                let options = {
+                    headers: {
+                        "X-Authentication": localStorage.getItem('token')
+                    }
+                };
+                socket = new WebSocket(action.host, [], options);
 
                 // websocket handlers
                 socket.onmessage = onMessage(store);
