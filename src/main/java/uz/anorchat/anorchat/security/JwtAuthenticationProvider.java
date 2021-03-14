@@ -1,13 +1,17 @@
 package uz.anorchat.anorchat.security;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import uz.anorchat.anorchat.entity.User;
+import uz.anorchat.anorchat.service.UserService;
 
-import javax.validation.Valid;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +20,9 @@ import java.util.Map;
 public class JwtAuthenticationProvider {
     @Value("${jwt.secret}")
     private String key;
+    @Autowired
+    private UserService userService;
+
     public String generateToken(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         Date now = new Date(System.currentTimeMillis());
@@ -36,4 +43,16 @@ public class JwtAuthenticationProvider {
                 .compact();
 
     }
+
+    public Authentication getAuthentication(String token) {
+        UserDetails userDetails = userService.loadUserById(getUserIdFromJwt(token));
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+    }
+
+    private Long getUserIdFromJwt(String jwt) {
+        final Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(jwt).getBody();
+        return Long.parseLong((String) claims.get("id"));
+    }
+
+
 }

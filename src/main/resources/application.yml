@@ -1,6 +1,6 @@
 spring:
   datasource:
-    username: postgres
+    username: superman
     password: root123
     url: jdbc:postgresql://localhost:5432/postgres
     driver-class-name: org.postgresql.Driver
@@ -8,7 +8,9 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-    format_sql: true
+    properties:
+      hibernate:
+        format_sql: true
 server:
   port: 8080
 jwt:

@@ -3,7 +3,7 @@ package uz.anorchat.anorchat.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,7 +34,7 @@ public class UserService implements UserDetailsService {
     private final JwtAuthenticationProvider jwtAuthenticationProvider;
 
     @Autowired
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager, JwtAuthenticationProvider jwtAuthenticationProvider) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager, @Lazy JwtAuthenticationProvider jwtAuthenticationProvider) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.authenticationManager = authenticationManager;
@@ -70,7 +70,7 @@ public class UserService implements UserDetailsService {
                     return new ApiResponse(e.getLocalizedMessage(), 500);
                 }
             }
-            return new ApiResponse("Tasdiqlovchi parol mos kelmadi.",400);
+            return new ApiResponse("Tasdiqlovchi parol mos kelmadi.", 400);
         }
         return new ApiResponse("Bu foydalanuvchi oldindan mavjud.", 400);
     }

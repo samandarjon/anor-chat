@@ -1,6 +1,7 @@
 package uz.anorchat.anorchat.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,8 +20,12 @@ public class ChatController {
 
     @GetMapping
     private ResponseEntity<?> getAllChats(@CurrentUser User user) {
-       return ResponseEntity.ok( chatService.getAll(user));
+        return ResponseEntity.ok(chatService.getAll(user));
     }
 
 
 }
+
+
+
+
