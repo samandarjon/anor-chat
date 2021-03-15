@@ -15,5 +15,6 @@ public class WebsocketSchedule {
 
     @Scheduled(fixedDelay = 1000, initialDelay = 3000)
     public void cronJobSch() {
-        messagingTemplate.convertAndSendToUser("user1", "/topic/messaging", "hello");
+
+        messagingTemplate.convertAndSendToUser("user2","/topic/periodic", "hello");
     }}
