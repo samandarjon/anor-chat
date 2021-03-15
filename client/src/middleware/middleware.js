@@ -1,5 +1,5 @@
 import * as actions from '../modules/websocket';
-
+import SockJS from 'sockjs-client'
 const socketMiddleware = () => {
     let socket = null;
 
@@ -39,8 +39,7 @@ const socketMiddleware = () => {
                         "X-Authentication": localStorage.getItem('token')
                     }
                 };
-                socket = new WebSocket(action.host, [], options);
-
+                socket = new SockJS(action.host,null, options);
                 // websocket handlers
                 socket.onmessage = onMessage(store);
                 socket.onclose = onClose(store);
