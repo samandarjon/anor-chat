@@ -3,7 +3,6 @@ package uz.anorchat.anorchat.component;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import uz.anorchat.anorchat.security.CurrentUser;
 
 @Component
 public class WebsocketSchedule {
@@ -13,8 +12,13 @@ public class WebsocketSchedule {
         this.messagingTemplate = messagingTemplate;
     }
 
-    @Scheduled(fixedDelay = 1000, initialDelay = 3000)
+    @Scheduled(fixedDelay = 1000, initialDelay = 1000)
     public void cronJobSch() {
-
-        messagingTemplate.convertAndSendToUser("user2","/topic/periodic", "hello");
-    }}
+      //  System.out.println("sent Message over websocket");
+        messagingTemplate.convertAndSendToUser("user2", "/topic/periodic", "hello");
+/*
+        messagingTemplate.convertAndSendToUser("user1", "/topic/periodic", "hello");
+        messagingTemplate.convertAndSendToUser("user3", "/topic/periodic", "hello");
+*/
+    }
+}

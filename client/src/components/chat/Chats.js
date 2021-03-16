@@ -26,7 +26,7 @@ class Chats extends Component {
         const headers = {Authorization: `Bearer ${localStorage.getItem("jwtToken")}`};
 
         stomp.connect(headers, function (frame) {
-            stomp.subscribe('/topic/periodic', function (response) {
+            stomp.subscribe('/user/topic/periodic', function (response) {
                 console.log(response);
             });
 
