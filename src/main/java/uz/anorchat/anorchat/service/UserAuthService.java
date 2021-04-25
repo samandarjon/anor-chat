@@ -26,15 +26,15 @@ import uz.anorchat.anorchat.security.JwtAuthenticationProvider;
 import javax.transaction.Transactional;
 
 @Service
-public class UserService implements UserDetailsService {
-    private final Logger logger = LoggerFactory.getLogger(UserService.class);
+public class UserAuthService implements UserDetailsService {
+    private final Logger logger = LoggerFactory.getLogger(UserAuthService.class);
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtAuthenticationProvider jwtAuthenticationProvider;
 
     @Autowired
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager, @Lazy JwtAuthenticationProvider jwtAuthenticationProvider) {
+    public UserAuthService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, AuthenticationManager authenticationManager, @Lazy JwtAuthenticationProvider jwtAuthenticationProvider) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.authenticationManager = authenticationManager;

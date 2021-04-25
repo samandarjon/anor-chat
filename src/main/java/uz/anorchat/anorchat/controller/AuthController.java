@@ -12,7 +12,7 @@ import uz.anorchat.anorchat.payload.ApiResponse;
 import uz.anorchat.anorchat.payload.Login;
 import uz.anorchat.anorchat.payload.Register;
 import uz.anorchat.anorchat.payload.TokenResponse;
-import uz.anorchat.anorchat.service.UserService;
+import uz.anorchat.anorchat.service.UserAuthService;
 
 import javax.validation.Valid;
 
@@ -21,7 +21,7 @@ import javax.validation.Valid;
 @RequestMapping("/api/auth")
 public class AuthController {
     @Autowired
-    private UserService userService;
+    private UserAuthService userAuthService;
 
     /**
      * {@code POST  /api/auth/login} : login user.
@@ -34,7 +34,7 @@ public class AuthController {
      */
     @PostMapping("/login")
     public ResponseEntity<TokenResponse> login(@RequestBody @Valid Login login) {
-        return ResponseEntity.ok(userService.loginUser(login));
+        return ResponseEntity.ok(userAuthService.loginUser(login));
     }
 
     /**
@@ -47,7 +47,7 @@ public class AuthController {
      */
     @PostMapping("/signup")
     public ResponseEntity<ApiResponse> register(@RequestBody @Valid Register register) {
-        ApiResponse apiResponse = userService.registerUser(register);
+        ApiResponse apiResponse = userAuthService.registerUser(register);
         return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
     }
 

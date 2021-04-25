@@ -4,13 +4,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import uz.anorchat.anorchat.entity.Chat;
+import uz.anorchat.anorchat.entity.Message;
 import uz.anorchat.anorchat.entity.User;
+import uz.anorchat.anorchat.repository.ChatRepository;
+import uz.anorchat.anorchat.repository.MessageRepository;
 import uz.anorchat.anorchat.repository.UserRepository;
+
+import java.util.ArrayList;
 
 @Component
 public class DataLoader implements CommandLineRunner {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private MessageRepository messageRepository;
+    @Autowired
+    private ChatRepository chatRepository;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -19,7 +29,7 @@ public class DataLoader implements CommandLineRunner {
 //        create temp user if user size less zero or equal
         if (userRepository.count() <= 0) {
 //           Create user with Builder pattern
-            User user = User.builder()
+            User user1 = User.builder()
                     .fullName("user1")
                     .username("user1")
                     .password(bCryptPasswordEncoder.encode("user1"))
@@ -34,9 +44,24 @@ public class DataLoader implements CommandLineRunner {
                     .username("user3")
                     .password(bCryptPasswordEncoder.encode("user3"))
                     .build();
-            userRepository.save(user);
+            userRepository.save(user1);
             userRepository.save(user2);
             userRepository.save(user3);
+            Chat chat = chatRepository.save(new Chat(null, user1, user2, new ArrayList<>()));
+            messageRepository.save(Message.builder()
+                    .chat(chat)
+                    .text("message form user1")
+                    .createdBy(user1.getId()).build());
+            messageRepository.save(Message.builder()
+                    .chat(chat)
+                    .text("message form user2")
+                    .createdBy(user2.getId()).build());
+            messageRepository.save(Message.builder()
+                    .chat(chat)
+                    .text("Hello")
+                    .createdBy(user2.getId()).build());
+
+
         }
     }
 }

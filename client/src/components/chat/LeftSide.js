@@ -3,20 +3,17 @@ import isEmpty from "../../validation/is-empty";
 
 class LeftSide extends Component {
     render() {
-        const {chats, auth} = this.props;
-        console.log(auth)
+        const {chats, auth, onClick} = this.props;
         let chatList
-        console.log(chats)
         if (!isEmpty(chats)) {
-            console.log(chats)
             chatList = chats.map(chat =>
                 <li className={"contact"}
-                    key={chat.id}>
-                    <div className="wrap">
+                    key={chat.id} onClick={() => onClick(chat.chatId, chat)}>
+                    <div className="wrap" ref={chat.chatId}>
                         <img src="assets/images/avatars/avatar.png" alt=""/>
                         <div className="meta">
-                            <p className="name">{parseInt(auth.user.id) === chat.firstUser.id ? chat.secondUser.fullName : chat.firstUser.fullName}</p>
-                            <p className="preview">You just got LITT up, Mike.</p>
+                            <p className="name">{chat.chatUserFullname}</p>
+                            <p className="preview">{chat.message}</p>
                         </div>
                     </div>
                 </li>)
@@ -28,7 +25,7 @@ class LeftSide extends Component {
                 <div id="profile">
                     <div className="wrap">
                         <img id="profile-img" src="assets/images/avatars/mikeross.png" className="online" alt=""/>
-                        <p>Mike Ross</p>
+                        <p>{auth.user.fullName}</p>
                     </div>
                 </div>
                 <div id="search">

@@ -6,8 +6,17 @@ import LeftSide from "./LeftSide";
 import {connectToWebsocket} from "../../actions/websocketAction";
 import SockJS from 'sockjs-client'
 import Stomp from 'stompjs'
+import RightSide from "./RightSide";
+import {sentMessageToUser} from "../../actions/messageAction";
 
 class Chats extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            chat: {},
+            message: ""
+        }
+    }
 
     componentDidMount() {
         this.props.getChats();
@@ -34,13 +43,35 @@ class Chats extends Component {
 
     }
 
+    onClickChat = (id, chat) => {
+        this.props.getChatByChatId(id)
+        this.setState({chat: chat})
+    }
+    onChange = (e) => {
+        this.setState({[e.target.name]: e.target.value})
+    }
+    sendMessageToUser = (e, chatId, userId) => {
+        e.preventDefault()
+        const message = {
+            chatId: chatId,
+            userId: userId,
+            message: this.state.message
+        }
+        this.props.sentMessageToUser(message);
+    };
 
     render() {
-        const {chats} = this.props.chats;
+        const {chats, chat} = this.props.chats;
         const {auth} = this.props;
         return (
             <div id="frame">
-                <LeftSide chats={chats} auth={auth}/>
+                <LeftSide chats={chats} auth={auth} onClick={this.onClickChat}/>
+                <RightSide
+                    message={chat}
+                    auth={auth}
+                    chat={this.state.chat}
+                    onChange={this.onChange}
+                    sendMessageToUser={this.sendMessageToUser}/>
             </div>
         );
     }
@@ -51,11 +82,12 @@ Chats.propTypes = {
     getChatByChatId: PropTypes.func.isRequired,
     connectToWebsocket: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
-    chats: PropTypes.object.isRequired
+    chats: PropTypes.object.isRequired,
+    sentMessageToUser: PropTypes.func.isRequired
 }
 const s2p = (state) => ({
         auth: state.auth,
         chats: state.chats,
     })
 ;
-export default connect(s2p, {getChats, getChatByChatId, connectToWebsocket})(Chats);
+export default connect(s2p, {getChats, getChatByChatId, connectToWebsocket, sentMessageToUser})(Chats);

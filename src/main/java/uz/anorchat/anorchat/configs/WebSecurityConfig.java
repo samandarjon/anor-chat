@@ -18,7 +18,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import uz.anorchat.anorchat.security.JwtAuthenticationFilter;
-import uz.anorchat.anorchat.service.UserService;
+import uz.anorchat.anorchat.service.UserAuthService;
 
 import java.util.Collections;
 
@@ -32,7 +32,7 @@ import java.util.Collections;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Lazy
     @Autowired
-    private UserService userService;
+    private UserAuthService userAuthService;
 
 
     @Bean
@@ -47,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
+        auth.userDetailsService(userAuthService).passwordEncoder(bCryptPasswordEncoder());
     }
 
     @Override

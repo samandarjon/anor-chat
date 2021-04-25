@@ -10,7 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import uz.anorchat.anorchat.entity.User;
-import uz.anorchat.anorchat.service.UserService;
+import uz.anorchat.anorchat.service.UserAuthService;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ public class JwtAuthenticationProvider {
     @Value("${jwt.secret}")
     private String key;
     @Autowired
-    private UserService userService;
+    private UserAuthService userAuthService;
 
     public String generateToken(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
@@ -45,7 +45,7 @@ public class JwtAuthenticationProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userService.loadUserById(getUserIdFromJwt(token));
+        UserDetails userDetails = userAuthService.loadUserById(getUserIdFromJwt(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 

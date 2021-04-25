@@ -11,7 +11,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import uz.anorchat.anorchat.entity.User;
-import uz.anorchat.anorchat.service.UserService;
+import uz.anorchat.anorchat.service.UserAuthService;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -23,7 +23,7 @@ import java.util.Collections;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
     @Autowired
-    private UserService userService;
+    private UserAuthService userAuthService;
     @Value("${jwt.secret}")
     private String key;
 
@@ -33,7 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             final String jwt = getJwtFromRequest(httpServletRequest);
             if (StringUtils.hasText(jwt) && validateToken(jwt)) {
                 final Long userId = getUserIdFromJwt(jwt);
-                final User user = userService.loadUserById(userId);
+                final User user = userAuthService.loadUserById(userId);
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                         user, null, Collections.emptyList()
                 );
