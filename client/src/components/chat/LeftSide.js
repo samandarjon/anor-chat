@@ -1,19 +1,32 @@
 import React, {Component} from 'react';
 import isEmpty from "../../validation/is-empty";
+import {logoutUser} from "../../actions/authAction";
+import {connect} from "react-redux";
 
 class LeftSide extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            clicked: ""
+        }
+    }
+
+    logout = () => {
+        this.props.logoutUser()
+    }
+
     render() {
-        const {chats, auth, onClick} = this.props;
+        const {chats, auth, onClick, search, logout} = this.props;
         let chatList
-        if (!isEmpty(chats)) {
+        if (!isEmpty(chats) && Array.isArray(chats)) {
             chatList = chats.map(chat =>
                 <li className={"contact"}
                     key={chat.id} onClick={() => onClick(chat.chatId, chat)}>
                     <div className="wrap" ref={chat.chatId}>
                         <img src="assets/images/avatars/avatar.png" alt=""/>
                         <div className="meta">
-                            <p className="name">{chat.chatUserFullname}</p>
-                            <p className="preview">{chat.message}</p>
+                            <p className="name">{chat.chatUserFullname ? chat.chatUserFullname : chat.fullName}</p>
+                            {!isEmpty(chat.message) ? <p className="preview">{chat.message}</p> : ""}
                         </div>
                     </div>
                 </li>)
@@ -29,8 +42,8 @@ class LeftSide extends Component {
                     </div>
                 </div>
                 <div id="search">
-                    <label htmlFor=""><i className="fa fa-search" aria-hidden="true"></i></label>
-                    <input type="text" placeholder="Search contacts..."/>
+                    <label htmlFor=""><i className="fa fa-search" aria-hidden="true"/></label>
+                    <input type="text" placeholder="Search contacts..." onChange={search} name={"serach"}/>
                 </div>
                 <div id="contacts">
                     <ul>
@@ -40,12 +53,12 @@ class LeftSide extends Component {
                 <div id="bottom-bar">
                     <button id="addcontact"><i className="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add
                         contact</span></button>
-                    <button id="settings"><i className="fa fa-cog fa-fw" aria-hidden="true"></i>
-                        <span>Settings</span></button>
+                    <button id="settings" onClick={logout}>
+                        <span>Log out</span></button>
                 </div>
             </div>
         );
     }
 }
 
-export default LeftSide;
+export default (LeftSide);

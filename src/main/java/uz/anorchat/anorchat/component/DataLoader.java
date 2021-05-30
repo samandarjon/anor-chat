@@ -29,6 +29,14 @@ public class DataLoader implements CommandLineRunner {
 //        create temp user if user size less zero or equal
         if (userRepository.count() <= 0) {
 //           Create user with Builder pattern
+            for (int i = 4; i < 10; i++) {
+                User fake = User.builder()
+                        .fullName("user" + i)
+                        .username("user" + i)
+                        .password(bCryptPasswordEncoder.encode("user"))
+                        .build();
+                userRepository.save(fake);
+            }
             User user1 = User.builder()
                     .fullName("user1")
                     .username("user1")

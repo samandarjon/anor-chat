@@ -1,6 +1,12 @@
 .App {
   text-align: center;
 }
+.auth{
+  background: white;
+  padding: 40px;
+  box-shadow: 21px -2px 83px 23px;
+  border-radius: 35px;
+}
 
 .App-logo {
   height: 40vmin;

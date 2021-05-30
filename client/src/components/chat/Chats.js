@@ -8,15 +8,22 @@ import SockJS from 'sockjs-client'
 import Stomp from 'stompjs'
 import RightSide from "./RightSide";
 import {sentMessageToUser} from "../../actions/messageAction";
+import {searchUser} from "../../actions/userAction";
+import isEmpty from "../../validation/is-empty";
+import {logoutUser} from "../../actions/authAction";
 
 class Chats extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            chat: {},
-            message: ""
+            chat: [],
+            chats: [],
+            clickedChat: {},
+            message: "",
+            new: null
         }
     }
+
 
     componentDidMount() {
         this.props.getChats();
@@ -44,12 +51,18 @@ class Chats extends Component {
     }
 
     onClickChat = (id, chat) => {
-        this.props.getChatByChatId(id)
-        this.setState({chat: chat})
+        if (id)
+            this.props.getChatByChatId(id)
+        this.setState({clickedChat: chat, new: id})
     }
     onChange = (e) => {
         this.setState({[e.target.name]: e.target.value})
     }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({chat: nextProps.chats.chat, chats: nextProps.chats.chats})
+    }
+
     sendMessageToUser = (e, chatId, userId) => {
         e.preventDefault()
         const message = {
@@ -57,21 +70,37 @@ class Chats extends Component {
             userId: userId,
             message: this.state.message
         }
+        this.setState({message: ""})
+        this.setState({new: "yes"})
         this.props.sentMessageToUser(message);
+
     };
 
+    searchUser = (e) => {
+        if (isEmpty(e.target.value)) {
+            this.props.getChats();
+        } else {
+            this.props.searchUser(e.target.value)
+        }
+    }
+    logout = () => {
+        this.props.logoutUser()
+    }
+
     render() {
-        const {chats, chat} = this.props.chats;
+        const {chats, chat} = this.state;
         const {auth} = this.props;
         return (
             <div id="frame">
-                <LeftSide chats={chats} auth={auth} onClick={this.onClickChat}/>
+                <LeftSide logout={this.logout} chats={chats} auth={auth} onClick={this.onClickChat}
+                          search={this.searchUser}/>
                 <RightSide
-                    message={chat}
+                    message={this.state.new ? chat : []}
                     auth={auth}
-                    chat={this.state.chat}
+                    chat={this.state.clickedChat}
                     onChange={this.onChange}
-                    sendMessageToUser={this.sendMessageToUser}/>
+                    sendMessageToUser={this.sendMessageToUser}
+                    messageValue={this.state.message}/>
             </div>
         );
     }
@@ -90,4 +119,11 @@ const s2p = (state) => ({
         chats: state.chats,
     })
 ;
-export default connect(s2p, {getChats, getChatByChatId, connectToWebsocket, sentMessageToUser})(Chats);
+export default connect(s2p, {
+    getChats,
+    getChatByChatId,
+    connectToWebsocket,
+    sentMessageToUser,
+    searchUser,
+    logoutUser
+})(Chats);

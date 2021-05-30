@@ -107,7 +107,7 @@ class Login extends Component {
             },
         }));
         return (
-            <div className={"row mt-5"}>
+            <div className={"row mt-5 auth"}>
                 {this.state.errors.message ?
                     (<div className={"offset-md-3 col-md-6"}>
                         <div className={alert.root}>

@@ -16,13 +16,9 @@
 #frame {
     /* width: 95%; */
     width: 95%;
-    min-width: 360px;
     /* max-width: 100px; */
-    max-width: 1148px;
     /* height: 92vh; */
     height: 92vh;
-    min-height: 300px;
-    max-height: 720px;
     background: #E6EAEA;
 }
 
@@ -358,7 +354,7 @@
 #frame #sidepanel #search input {
     font-family: "proxima-nova", "Source Sans Pro", sans-serif;
     padding: 10px 0 10px 46px;
-    width: calc(100% - 25px);
+    width: calc(100% - 8px);
     border: none;
     background: #32465a;
     color: #f5f5f5;
@@ -431,6 +427,7 @@
 
 #frame #sidepanel #contacts ul li.contact:hover {
     background: #32465a;
+    width: 100%;
 }
 
 #frame #sidepanel #contacts ul li.contact.active {
@@ -766,6 +763,7 @@
 }
 
 #frame .content .message-input .wrap input {
+    height: 30px;
     font-family: "proxima-nova", "Source Sans Pro", sans-serif;
     float: left;
     border: none;
@@ -811,7 +809,7 @@
     float: right;
     border: none;
     width: 50px;
-    padding: 12px 0;
+    padding: 7px 0;
     cursor: pointer;
     background: #32465a;
     color: #f5f5f5;

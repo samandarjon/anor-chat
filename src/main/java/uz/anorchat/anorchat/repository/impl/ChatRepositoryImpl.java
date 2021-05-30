@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.List;
 
-@Repository()
+@Repository
 public class ChatRepositoryImpl {
     private final EntityManager entityManager;
 
