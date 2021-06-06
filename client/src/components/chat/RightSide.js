@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import isEmpty from "../../validation/is-empty";
+import getRandomUrl from "../../utils/random";
 
 class RightSide extends Component {
     componentDidMount() {
@@ -17,13 +18,14 @@ class RightSide extends Component {
     };
 
     render() {
-        const {message, chat, auth, onChange, sendMessageToUser, messageValue} = this.props
+        const {message, auth, onChange, sendMessageToUser, messageValue, authUrl} = this.props
+        const {chat, url} = this.props.chat;
         let messageView;
         let messageHeader;
         let messageFooter;
         if (!isEmpty(chat) && !isEmpty(auth)) {
             messageHeader = <div className="contact-profile">
-                <div className="img"><span>{chat.chatUserFullname ? chat.chatUserFullname[0] : ""}</span>
+                <div className="img"><img src={url} alt=""/>
                 </div>
                 <p>{chat.chatUserFullname ? chat.chatUserFullname : chat.fullName}</p>
             </div>
@@ -31,7 +33,7 @@ class RightSide extends Component {
                 <form onSubmit={(e) => sendMessageToUser(e, chat.chatId, chat.chatUserId)}>
                     <input type="text" placeholder="Write your message..." name={"message"} required
                            onChange={onChange} value={messageValue}/>
-                    <i className="fa fa-paperclip attachment" aria-hidden="true"/>
+                    {/*<i className="fa fa-paperclip attachment" aria-hidden="true"/>*/}
                     <button className="submit"
                     ><i
                         className="fa fa-paper-plane" aria-hidden="true"/></button>
@@ -44,7 +46,7 @@ class RightSide extends Component {
                     <li key={message.id} className={parseInt(auth.user.id) === message.createdBy ? "replies" :
                         "sent"}>
                         <div
-                            className="img"><span>{chat.chatUserFullname[0]}</span></div>
+                            className="img"><img src={parseInt(auth.user.id) === message.createdBy?authUrl:url} alt=""/></div>
                         <p>{message.text}
                         </p>
                     </li>

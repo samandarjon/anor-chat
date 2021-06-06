@@ -533,7 +533,7 @@
 #frame #sidepanel #bottom-bar button {
     float: left;
     border: none;
-    width: 50%;
+    width: 100%;
     padding: 10px 0;
     background: #32465a;
     color: #f5f5f5;
@@ -623,14 +623,12 @@
     background: rebeccapurple;
 }
 
-#frame .content .contact-profile .img span {
-    text-align: center;
-    display: block;
-    color: white;
-    /*font-weight: bold;*/
-    font-size: 1.5rem;
-    line-height: 1.8;
+
+#frame .content .contact-profile .img img {
+    max-width: 100%;
+    border-radius: 50%;
 }
+
 
 #frame .content .contact-profile p {
     float: left;
@@ -691,18 +689,13 @@
 
 #frame .content .messages ul li.sent .img {
     margin: 6px 8px 0 0;
-    width: 25px;
-    height: 25px;
-    background: cadetblue;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
 }
 
-#frame .content .messages ul li.sent .img span {
-    display: block;
-    text-align: center;
-    line-height: 1.4;
-    font-size: 16px;
-    color: white;
+#frame .content .messages ul li.sent .img img {
+    width: 100%;
 }
 
 #frame .content .messages ul li.sent p {
@@ -713,17 +706,12 @@
 #frame .content .messages ul li.replies .img {
     float: right;
     margin: 6px 0 0 8px;
-    width: 25px;
-    height: 25px;
-    background: #2c3e50;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
 }
-#frame .content .messages ul li.replies .img span{
-    display: block;
-    text-align: center;
-    line-height: 1.4;
-    font-size: 16px;
-    color: white;
+#frame .content .messages ul li.replies .img img{
+    width: 100%;
 }
 #frame .content .messages ul li.replies p {
     background: #f5f5f5;

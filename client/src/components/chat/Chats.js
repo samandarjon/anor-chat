@@ -11,6 +11,8 @@ import {sentMessageToUser} from "../../actions/messageAction";
 import {searchUser} from "../../actions/userAction";
 import isEmpty from "../../validation/is-empty";
 import {logoutUser} from "../../actions/authAction";
+import getRandomUrl from "../../utils/random";
+import {url} from "../../env";
 
 class Chats extends Component {
     constructor(props) {
@@ -50,10 +52,10 @@ class Chats extends Component {
 
     }
 
-    onClickChat = (id, chat) => {
+    onClickChat = (id, chat, url) => {
         if (id)
             this.props.getChatByChatId(id)
-        this.setState({clickedChat: chat, new: id})
+        this.setState({clickedChat: {chat: chat, url: url}, new: id})
     }
     onChange = (e) => {
         this.setState({[e.target.name]: e.target.value})
@@ -90,11 +92,13 @@ class Chats extends Component {
     render() {
         const {chats, chat} = this.state;
         const {auth} = this.props;
+        let authUrl = getRandomUrl(auth.user.fullName)
         return (
             <div id="frame">
-                <LeftSide logout={this.logout} chats={chats} auth={auth} onClick={this.onClickChat}
+                <LeftSide logout={this.logout} chats={chats} auth={auth} url={authUrl} onClick={this.onClickChat}
                           search={this.searchUser}/>
                 <RightSide
+                    authUrl={authUrl}
                     message={this.state.new ? chat : []}
                     auth={auth}
                     chat={this.state.clickedChat}

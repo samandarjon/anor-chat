@@ -44,7 +44,7 @@ public class ChatRepositoryImpl {
                 "               group by m.chat_id, m.id, time\n" +
                 "               order by chat_id\n" +
                 ")\n" +
-                "order by time", ChatDto.class);
+                "order by time desc ", ChatDto.class);
         query.setParameter("current_user_id", currentUser);
         return query.getResultList();
     }

@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import isEmpty from "../../validation/is-empty";
-import {logoutUser} from "../../actions/authAction";
-import {connect} from "react-redux";
+
+import getRandomUrl from "../../utils/random";
 
 class LeftSide extends Component {
-    constructor(props) {
-        super(props)
+    constructor() {
+        super();
         this.state = {
             clicked: ""
         }
@@ -16,20 +16,21 @@ class LeftSide extends Component {
     }
 
     render() {
-        const {chats, auth, onClick, search, logout} = this.props;
+        const {chats, auth, onClick, search, logout, url} = this.props;
         let chatList
         if (!isEmpty(chats) && Array.isArray(chats)) {
-            chatList = chats.map(chat =>
-                <li className={"contact"}
-                    key={chat.id} onClick={() => onClick(chat.chatId, chat)}>
-                    <div className="wrap" ref={chat.chatId}>
-                        <img src="assets/images/avatars/avatar.png" alt=""/>
+            chatList = chats.map(chat =>{
+                let url= getRandomUrl(chat.chatUserFullname ? chat.chatUserFullname : chat.fullName)
+                return <li className={"contact"}
+                    key={chat.id} onClick={() => onClick(chat.chatId, chat, url)}>
+                    <div className="wrap">
+                        <img src={url} alt=""/>
                         <div className="meta">
                             <p className="name">{chat.chatUserFullname ? chat.chatUserFullname : chat.fullName}</p>
                             {!isEmpty(chat.message) ? <p className="preview">{chat.message}</p> : ""}
                         </div>
                     </div>
-                </li>)
+                </li>})
 
         }
 
@@ -37,7 +38,8 @@ class LeftSide extends Component {
             <div id="sidepanel">
                 <div id="profile">
                     <div className="wrap">
-                        <img id="profile-img" src="assets/images/avatars/mikeross.png" className="online" alt=""/>
+                        <img d="profile-img" className="online"
+                             src={url} alt=""/>
                         <p>{auth.user.fullName}</p>
                     </div>
                 </div>
@@ -51,8 +53,6 @@ class LeftSide extends Component {
                     </ul>
                 </div>
                 <div id="bottom-bar">
-                    <button id="addcontact"><i className="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add
-                        contact</span></button>
                     <button id="settings" onClick={logout}>
                         <span>Log out</span></button>
                 </div>
