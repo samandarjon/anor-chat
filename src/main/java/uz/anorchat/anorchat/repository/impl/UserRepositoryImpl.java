@@ -19,17 +19,26 @@ public class UserRepositoryImpl {
 
     public List<UserDto> findUsers(MultiValueMap<String, String> params, Long userId) {
         StringBuilder queryBuilder = getQueryBuilder(params);
-        String query = "select u.id,\n" +
-                "       u.full_name,\n" +
-                "       u.username\n" +
+        String query = "select  distinct u.id,\n" +
+                "                u.full_name,\n" +
+                "                u.username\n" +
                 "from users u\n" +
-                "         left outer join chat c on c.first_user_id = u.id or c.second_user_id = u.id\n" +
-                "where u.id != :userId\n" +
-                "  and c.first_user_id is null\n" +
+                "         left outer join\n" +
+                "     chat c\n" +
+                "     on c.first_user_id = u.id\n" +
+                "         or c.second_user_id = u.id\n" +
+                "where u.id != :userid\n" +
+                "  and u.id not in ((select case\n" +
+                "                               when second_user_id = :userid\n" +
+                "                                   then ch.first_user_id\n" +
+                "                               else ch.second_user_id end\n" +
+                "                    from chat ch\n" +
+                "                    where ch.second_user_id = :userid\n" +
+                "                       or ch.first_user_id = :userid))\n" +
                 queryBuilder + " order by u.username";
         try {
             Query nativeQuery = entityManager.createNativeQuery(query, UserDto.class);
-            nativeQuery.setParameter("userId", userId);
+            nativeQuery.setParameter("userid", userId);
             setProperty(nativeQuery, params);
             return nativeQuery.getResultList();
 
